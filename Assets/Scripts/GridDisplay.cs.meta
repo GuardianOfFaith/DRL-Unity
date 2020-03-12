@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: c196c2c71c91c34458b95ec443fd58a2
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - lineObject: {fileID: 3753097256320047254, guid: 8f26eb45526f6214e9b0e2ed7fdc32b0,
+      type: 3}
+  - terminalObject: {fileID: 3490459860136488436, guid: 2063ae971ea2dd04f951c5426697e316,
+      type: 3}
+  - probaObject: {fileID: 4203683505700511914, guid: 177498579c5a16a459bec5b1e77fab2a,
+      type: 3}
+  - lines: {instanceID: 0}
+  - terminals: {instanceID: 0}
+  - probas: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
