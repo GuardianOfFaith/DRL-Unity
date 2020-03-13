@@ -39,7 +39,7 @@ namespace Policy_Evaluation
             return Pi;
         }
 
-        public float[] iterative_policy_evaluation(List<int> S, List<int> A, List<int> T, int[,,] P, int[,,] R, float[,] Pi, float gamma = 1.0f, float theta = 0.000001f)
+        public float[] iterative_policy_evaluation(List<int> S, List<int> A, List<int> T, int[,,] P, int[,,] R, float[,] Pi, float gamma = 0.99f, float theta = 0.000001f)
         {
             Random randNum = new Random();
             float[] V = Enumerable.Repeat(0, S.Count).Select(i => (float)randNum.NextDouble()).ToArray();

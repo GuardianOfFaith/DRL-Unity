@@ -30,21 +30,21 @@ public class Model : MonoBehaviour
             wazarudo = new Policy_Evaluation_line();
         rndup = wazarudo.create_random_uniform_policy(Policy_Evaluation_line.S.Count, Policy_Evaluation_line.A.Count);
         itpe = wazarudo.iterative_policy_evaluation(Policy_Evaluation_line.S, Policy_Evaluation_line.A, Policy_Evaluation_line.T, Policy_Evaluation_line.P, Policy_Evaluation_line.R, rndup);
-        rndup = new float[Policy_Evaluation_line.S.Count, Policy_Evaluation_line.A.Count];
-        for (int i = 0; i < Policy_Evaluation_line.S.Count; i++)
-            for (int j = 0; j < Policy_Evaluation_line.A.Count; j++)
-            {
-                if (j == 1)
-                {
-                    rndup[i, j] = 1.0f;
-                }
-                else
-                {
-                    rndup[i, j] = 0f;
-                }
+        //rndup = new float[Policy_Evaluation_line.S.Count, Policy_Evaluation_line.A.Count];
+        //for (int i = 0; i < Policy_Evaluation_line.S.Count; i++)
+        //    for (int j = 0; j < Policy_Evaluation_line.A.Count; j++)
+        //    {
+        //        if (j == 1)
+        //        {
+        //            rndup[i, j] = 1.0f;
+        //        }
+        //        else
+        //        {
+        //            rndup[i, j] = 0f;
+        //        }
 
-            }
-        itpe = wazarudo.iterative_policy_evaluation(Policy_Evaluation_line.S, Policy_Evaluation_line.A, Policy_Evaluation_line.T, Policy_Evaluation_line.P, Policy_Evaluation_line.R, rndup);
+        //    }
+        //itpe = wazarudo.iterative_policy_evaluation(Policy_Evaluation_line.S, Policy_Evaluation_line.A, Policy_Evaluation_line.T, Policy_Evaluation_line.P, Policy_Evaluation_line.R, rndup);
     }
 
     public void loadPolicyGrid()
