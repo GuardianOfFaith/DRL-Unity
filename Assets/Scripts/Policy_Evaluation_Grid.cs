@@ -138,7 +138,6 @@ namespace Policy_Evaluation_Grid
                         {
                             foreach(var p_state in s)
                             {
-                                //UnityEngine.Debug.Log()/
                                 temp_sum += pi[state, action] * P[state, action, p_state] * (R[state, action, p_state] + gamma * V[p_state]);
                             }
                         }

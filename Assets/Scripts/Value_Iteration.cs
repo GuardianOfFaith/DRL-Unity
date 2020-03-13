@@ -4,22 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Policy_Iteration_Grid
+namespace Policy_Evaluation
 {
-    public class ReturnType
+    public class Value_Iteration
     {
-        public float[] V { get; set; }
-        public float[,] Pi { get; set; }
-
-        public ReturnType(float[] V, float[,] Pi)
-        {
-            this.V = V;
-            this.Pi = Pi;
-        }
-    }
-    public class Policy_Iteration_Grid_class
-    {
-        #region grid_world
+        # region grid_world
         public static int width = 10;
         public static int height = 10;
         public static int numStates = width * height;
@@ -29,7 +18,7 @@ namespace Policy_Iteration_Grid
         public static int[,,] P = new int[100, 4, 100];
         public static int[,,] R = new int[100, 4, 100];
 
-        public Policy_Iteration_Grid_class()
+        public Value_Iteration()
         {
             for (int i = 0; i < numStates; i++)
             {
@@ -105,13 +94,13 @@ namespace Policy_Iteration_Grid
             {
                 for (int j = 0; j < actionSize; j++)
                 {
-                    toReturn[i, j] = 1 / actionSize;
+                    toReturn[i, j] = (float)((float)1 / (float)actionSize);
                 }
             }
             return toReturn;
         }
 
-        public float[] iterative_policy_evaluation(List<int> s, List<int> a, List<int> t, int[,,] p, int[,,] r, float[,] pi, float gamma = 0.99f, float theta = 0.00001f, float[] V = null)
+        public float[] Value_evaluation(List<int> s, List<int> a, List<int> t, int[,,] p, int[,,] r, float gamma = 0.99f, float theta = 500000f, float[] V = null)
         {
             if (0 < gamma && gamma < 1 && theta > 0)
             {
@@ -135,17 +124,22 @@ namespace Policy_Iteration_Grid
                     {
                         float temp_v = V[state];
                         float temp_sum = 0;
+                        float max = 0;
                         foreach (var action in a)
                         {
                             foreach (var p_state in s)
                             {
-                                temp_sum += pi[state, action] * P[state, action, p_state] * (R[state, action, p_state] + gamma * V[p_state]);
+                                temp_sum += P[state, action, p_state] * (R[state, action, p_state] + gamma * V[p_state]);
+                            }
+                            if (max < temp_sum)
+                            {
+                                max = temp_sum;
                             }
                         }
-                        V[state] = temp_sum;
+                        V[state] = max;
                         delta = Math.Max(delta, Math.Abs(V[state] - temp_v));
                     }
-                    if (delta < theta)
+                    if (delta > theta )
                     {
                         break;
                     }
@@ -154,74 +148,6 @@ namespace Policy_Iteration_Grid
             return V;
         }
 
-        public ReturnType policy_iteration(List<int> s, List<int> a, List<int> t, int[,,] p, int[,,] r, float gamma = 0.99f, float theta = 0.00001f)
-        {
-            Random random = new Random();
-            var V = Enumerable.Repeat((float)random.NextDouble(), 100).ToArray();
-            foreach (var term in t)
-            {
-                V[term] = 0f;
-            }
-            var Pi = create_random_uniform_policy(s.Count, a.Count);
-            while (true)
-            {
-                V = iterative_policy_evaluation(s, a, t, p, r, Pi, gamma, theta, V);
-                bool policy_stable = true;
-                foreach (var state in s)
-                {
-                    int old_action = -50;
-                    for (int i = 0; i < s.Count; i++)
-                    {
-                        for (int j = 0; j < a.Count; j++)
-                        {
-                            if (i == state)
-                            {
-                                if (Pi[i, j] > old_action)
-                                {
-                                    old_action = j;
-                                }
-                            }
-                        }
-                    }
 
-                    int best_action = 0;
-                    float best_action_score = -999999f;
-                    foreach (var action in a)
-                    {
-                        float tmp_score = 0f;
-                        foreach (var s_p in s)
-                        {
-                            tmp_score += P[state, action, s_p] * (R[state, action, s_p] + gamma * V[s_p]);
-                        }
-                        if (best_action_score <= tmp_score)
-                        {
-                            best_action = action;
-                            best_action_score = tmp_score;
-                        }
-                    }
-                    for (int i = 0; i < s.Count; i++)
-                    {
-                        for (int j = 0; j < a.Count; j++)
-                        {
-                            if (i == state)
-                            {
-                                Pi[i, j] = 0;
-                            }
-                        }
-                    }
-                    Pi[state, best_action] = 1f;
-                    if (best_action != old_action)
-                    {
-                        policy_stable = false;
-                    }
-                }
-                if (policy_stable)
-                {
-                    break;
-                }
-            }
-            ReturnType toReturn = new ReturnType(V, Pi);
-            return toReturn;
-        }
     }
 }

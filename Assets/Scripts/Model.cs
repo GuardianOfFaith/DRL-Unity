@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Policy_Evaluation;
 using Policy_Evaluation_Grid;
+using Policy_Iteration_Grid;
 
 public class Model : MonoBehaviour
 {
     public static Model instance;
     Policy_Evaluation_line wazarudo;
     Policy_Evaluation_Grid_class pGrid;
+    Policy_Iteration_Grid_class pItGrid;
+    Value_Iteration vIt;
 
     float[,] rndup;
     public float[] itpe;
@@ -19,19 +22,12 @@ public class Model : MonoBehaviour
         if (instance != null)
             return;
         instance = this;
-
-        pGrid = new Policy_Evaluation_Grid_class();
-        rndup = pGrid.create_random_uniform_policy(Policy_Evaluation_Grid_class.S.Count, Policy_Evaluation_Grid_class.A.Count);
-        itpe = pGrid.iterative_policy_evaluation(Policy_Evaluation_Grid_class.S, Policy_Evaluation_Grid_class.A, Policy_Evaluation_Grid_class.T, Policy_Evaluation_Grid_class.P, Policy_Evaluation_Grid_class.R, rndup);
-
-        //rndup = new float[Policy_Evaluation_Grid_class.S.Count, Policy_Evaluation_Grid_class.A.Count];
-        //itpe = pGrid.iterative_policy_evaluation(Policy_Evaluation_Grid_class.S, Policy_Evaluation_Grid_class.A, Policy_Evaluation_Grid_class.T, Policy_Evaluation_Grid_class.P, Policy_Evaluation_Grid_class.R, rndup);
-
     }
 
-    void loadPolicyLine()
+    public void loadPolicyLine()
     {
-        wazarudo = new Policy_Evaluation_line();
+        if (wazarudo == null)
+            wazarudo = new Policy_Evaluation_line();
         rndup = wazarudo.create_random_uniform_policy(Policy_Evaluation_line.S.Count, Policy_Evaluation_line.A.Count);
         itpe = wazarudo.iterative_policy_evaluation(Policy_Evaluation_line.S, Policy_Evaluation_line.A, Policy_Evaluation_line.T, Policy_Evaluation_line.P, Policy_Evaluation_line.R, rndup);
         rndup = new float[Policy_Evaluation_line.S.Count, Policy_Evaluation_line.A.Count];
@@ -51,14 +47,27 @@ public class Model : MonoBehaviour
         itpe = wazarudo.iterative_policy_evaluation(Policy_Evaluation_line.S, Policy_Evaluation_line.A, Policy_Evaluation_line.T, Policy_Evaluation_line.P, Policy_Evaluation_line.R, rndup);
     }
 
-    void loadPolicyGrid()
+    public void loadPolicyGrid()
     {
-
+        if (pGrid == null)
+            pGrid = new Policy_Evaluation_Grid_class();
+        rndup = pGrid.create_random_uniform_policy(Policy_Evaluation_Grid_class.S.Count, Policy_Evaluation_Grid_class.A.Count);
+        itpe = pGrid.iterative_policy_evaluation(Policy_Evaluation_Grid_class.S, Policy_Evaluation_Grid_class.A, Policy_Evaluation_Grid_class.T, Policy_Evaluation_Grid_class.P, Policy_Evaluation_Grid_class.R, rndup);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void loadPolicyItGrid()
     {
+        if(pItGrid == null)
+            pItGrid = new Policy_Iteration_Grid_class();
+        rndup = pItGrid.create_random_uniform_policy(Policy_Iteration_Grid_class.S.Count, Policy_Iteration_Grid_class.A.Count);
+        itpe = pItGrid.policy_iteration(Policy_Iteration_Grid_class.S, Policy_Iteration_Grid_class.A, Policy_Iteration_Grid_class.T, Policy_Iteration_Grid_class.P, Policy_Iteration_Grid_class.R).V;
+    }
 
+    public void loadValue()
+    {
+        if (vIt == null)
+            vIt = new Value_Iteration();
+        rndup = vIt.create_random_uniform_policy(Value_Iteration.S.Count, Value_Iteration.A.Count);
+        itpe = vIt.Value_evaluation(Value_Iteration.S, Value_Iteration.A, Value_Iteration.T, Value_Iteration.P, Value_Iteration.R);
     }
 }

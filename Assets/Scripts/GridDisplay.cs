@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Policy_Evaluation;
 using Policy_Evaluation_Grid;
+using Policy_Iteration_Grid;
+
 public class GridDisplay : MonoBehaviour
 {
     [Header("Size")]
@@ -55,15 +57,31 @@ public class GridDisplay : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
+            Model.instance.loadPolicyLine();
             for (int i = 0; i < Policy_Evaluation_line.S.Count; i++)
                 for (int j = 0; j < Policy_Evaluation_line.A.Count; j++)
                     SetProbabilities(i, j, Model.instance.itpe[i]);
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
+            Model.instance.loadPolicyGrid();
             for (int i = 1; i <= Policy_Evaluation_Grid_class.width; i++)
                 for (int j = 1; j <= Policy_Evaluation_Grid_class.height; j++)
                     SetProbabilities(i, j, Model.instance.itpe[i - 1 + (j-1)* Policy_Evaluation_Grid_class.width]);
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            Model.instance.loadPolicyItGrid();
+            for (int i = 1; i <= Policy_Iteration_Grid_class.width; i++)
+                for (int j = 1; j <= Policy_Iteration_Grid_class.height; j++)
+                    SetProbabilities(i, j, Model.instance.itpe[i - 1 + (j - 1) * Policy_Iteration_Grid_class.width]);
+        }
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            Model.instance.loadValue();
+            for (int i = 1; i <= Value_Iteration.width; i++)
+                for (int j = 1; j <= Value_Iteration.height; j++)
+                    SetProbabilities(i, j, Model.instance.itpe[i - 1 + (j - 1) * Value_Iteration.width]);
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
