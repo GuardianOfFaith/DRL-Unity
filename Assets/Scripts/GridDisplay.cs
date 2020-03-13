@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Policy_Evaluation;
+using Policy_Evaluation_Grid;
 public class GridDisplay : MonoBehaviour
 {
     [Header("Size")]
@@ -57,6 +58,12 @@ public class GridDisplay : MonoBehaviour
             for (int i = 0; i < Policy_Evaluation_line.S.Count; i++)
                 for (int j = 0; j < Policy_Evaluation_line.A.Count; j++)
                     SetProbabilities(i, j, Model.instance.itpe[i]);
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            for (int i = 1; i <= Policy_Evaluation_Grid_class.width; i++)
+                for (int j = 1; j <= Policy_Evaluation_Grid_class.height; j++)
+                    SetProbabilities(i, j, Model.instance.itpe[i - 1 + (j-1)* Policy_Evaluation_Grid_class.width]);
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
@@ -175,7 +182,8 @@ public class GridDisplay : MonoBehaviour
         go = Instantiate(probaObject, probas);
         probaList.Add(go);
         rt = go.GetComponent<RectTransform>();
-        go.GetComponent<Text>().text = val.ToString();
+        
+        go.GetComponent<Text>().text = ((float)Math.Round(val, 2)).ToString();
         rt.anchorMin = new Vector2(((float)(posX - 0.5f) / (float)dimX), 1 - ((float)(posY - 0.5f) / (float)dimY));
         rt.anchorMax = new Vector2(((float)(posX - 0.5f) / (float)dimX), 1 - ((float)(posY - 0.5f) / (float)dimY));
     }

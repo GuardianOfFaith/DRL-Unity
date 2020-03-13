@@ -380,8 +380,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c196c2c71c91c34458b95ec443fd58a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dimX: 1
-  dimY: 4
+  dimX: 10
+  dimY: 10
   lineObject: {fileID: 3753097256320047254, guid: 8f26eb45526f6214e9b0e2ed7fdc32b0,
     type: 3}
   terminalObject: {fileID: 3490459860136488436, guid: 2063ae971ea2dd04f951c5426697e316,
