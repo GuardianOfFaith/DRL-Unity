@@ -19,7 +19,7 @@ public class Case : MonoBehaviour
         else if (ttt.player == 1)
             assignment = player.Circle;
         setImg();
-        ttt.checkWin(position);
+        ttt.checkWin();
         ttt.changePlayer();
     }
 
